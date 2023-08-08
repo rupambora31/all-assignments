@@ -12,7 +12,6 @@ function middleware1(req, res, next) {
 
 //app.use(middleware1);
 
-
 //1+2+3+4+....+n
 function calculateSum(counter) {
   var sum = 0;
@@ -31,13 +30,12 @@ function calculateMult(counter) {
   return ans;
 }
 
-
 app.post("/handle-sum", (req, res) => {
   var counter = req.body.counter;
 
   var calculatedSum = calculateSum(counter);
-  var calculatedMult = calculateMult(counter); 
-  
+  var calculatedMult = calculateMult(counter);
+
   var answerObj = {
     sum: calculatedSum,
     multiplication: calculatedMult,
@@ -45,6 +43,24 @@ app.post("/handle-sum", (req, res) => {
 
   res.send(answerObj);
 });
+
+function giveHtml(req, res) {
+  res.send(`<!DOCTYPE html>
+            <html lang="en">
+            <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Server says Hello</title>
+            </head>
+            <body>
+                <i>What's up bro!</i>
+            </body>
+            </html>`);
+
+            
+}
+
+app.get("/", giveHtml);
 
 app.post("/createUser", (req, res) => {
   res.send("Hello Universe!");
