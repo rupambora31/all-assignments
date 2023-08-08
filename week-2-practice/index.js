@@ -5,13 +5,6 @@ const port = 3000;
 
 app.use(bodyParser.json());
 
-function middleware1(req, res, next) {
-  console.log("from the middleware" + req.headers.counter);
-  next();
-}
-
-//app.use(middleware1);
-
 //1+2+3+4+....+n
 function calculateSum(counter) {
   var sum = 0;
@@ -21,49 +14,13 @@ function calculateSum(counter) {
   return sum;
 }
 
-//1*2*3*4*.....*n
-function calculateMult(counter) {
-  var ans = 1;
-  for (var i = 1; i <= counter; i++) {
-    ans *= i;
-  }
-  return ans;
-}
-
-app.post("/handle-sum", (req, res) => {
-  var counter = req.body.counter;
-
+app.get("/handle-sum", (req, res) => {
+  var counter = req.query.counter;
   var calculatedSum = calculateSum(counter);
-  var calculatedMult = calculateMult(counter);
-
   var answerObj = {
     sum: calculatedSum,
-    multiplication: calculatedMult,
   };
-
   res.send(answerObj);
-});
-
-function giveHtml(req, res) {
-  res.send(`<!DOCTYPE html>
-            <html lang="en">
-            <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Server says Hello</title>
-            </head>
-            <body>
-                <i>What's up bro!</i>
-            </body>
-            </html>`);
-
-            
-}
-
-app.get("/", giveHtml);
-
-app.post("/createUser", (req, res) => {
-  res.send("Hello Universe!");
 });
 
 app.listen(port, () => {
