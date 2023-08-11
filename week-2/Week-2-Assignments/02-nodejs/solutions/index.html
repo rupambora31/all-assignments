@@ -7,23 +7,42 @@
 </head>
 <script>
 
+function deleteDone(id) {
+            console.log("delete done " + id);
+            var parentElement = document.getElementById("mainArea");
+            console.log(`Check for parent element: ${parentElement}`);
+            var childElement = document.getElementById(id);
+            childElement.parentElement.removeChild(childElement);
+        }
+      
+function deleteTodo(id) {
+        console.log(id);
+        fetch("http://localhost:3000/todos/" + id , {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+         }    
+         }).then(deleteDone(id))
+    }
+          
 
 function todosCallback(data){
         console.log(data);
         var parentElement = document.getElementById("mainArea");
-        // parentElement.innerHTML = JSON.stringify(data);
+        
         for (var i=0; i<data.length; i++){
 
             var childElement = document.createElement("div");
-
+            childElement.setAttribute("id", data[i].id);
             var grandChildElement1 = document.createElement("span");
-            grandChildElement1.innerHTML = data[i].title
+            grandChildElement1.innerHTML = data[i].title;
 
             var grandChildElement2 = document.createElement("span");
-            grandChildElement2.innerHTML = data[i].description
+            grandChildElement2.innerHTML = data[i].description;
 
             var grandChildElement3 = document.createElement("button");
-            grandChildElement3.innerHTML = "Delete"
+            grandChildElement3.innerHTML = "Delete";
+            grandChildElement3.setAttribute("onclick", "deleteTodo(" + data[i].id + ")")
 
             childElement.appendChild(grandChildElement1)
             childElement.appendChild(grandChildElement2)
@@ -34,6 +53,7 @@ function todosCallback(data){
         }
         
     }
+
     function getDataCallback(resp) {
         resp.json().then(todosCallback);
     }
@@ -50,6 +70,25 @@ function todosCallback(data){
 
     function parsedResponse(data){
             console.log(data);
+            var parentElement = document.getElementById("mainArea");
+            var childElement = document.createElement("div");
+            childElement.setAttribute("id", data.id);
+
+            var grandChildElement1 = document.createElement("span");
+            grandChildElement1.innerHTML = data.title;
+
+            var grandChildElement2 = document.createElement("span");
+            grandChildElement2.innerHTML = data.description;
+
+            var grandChildElement3 = document.createElement("button");
+            grandChildElement3.innerHTML = "Delete";
+            grandChildElement3.setAttribute("onclick", "deleteTodo(" + data.id + ")")
+
+            childElement.appendChild(grandChildElement1)
+            childElement.appendChild(grandChildElement2)
+            childElement.appendChild(grandChildElement3)
+
+            parentElement.appendChild(childElement);
         }
 
     function callback(resp){
