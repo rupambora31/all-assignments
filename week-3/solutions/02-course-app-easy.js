@@ -9,7 +9,9 @@ let COURSES = [];
 
 const adminAuthentication = (req, res, next) => {
   const { username, password } = req.headers;
-
+  console.log("control here");
+  console.log(username);
+  console.log(password);
   const admin = ADMINS.find(a => a.username === username && a.password === password);
   if (admin) {
     next();
@@ -22,7 +24,7 @@ const userAuthentication = (req, res, next) => {
   const { username, password } = req.headers;
   const user = USERS.find(u => u.username === username && u.password === password);
   if (user) {
-    req.user = user;  // Add user object to the request
+    req.user = user;  // Add user object to the request(req)
     next();
   } else {
     res.status(403).json({ message: 'User authentication failed' });
@@ -108,7 +110,7 @@ app.get('/users/purchasedCourses', userAuthentication, (req, res) => {
   // const purchasedCourses = COURSES.filter(c => req.user.purchasedCourses.includes(c.id));
   // We need to extract the complete course object from COURSES
   // which have ids which are present in req.user.purchasedCourses
-  var purchasedCourseIds = req.user.purchasedCourses; [1, 4];
+  var purchasedCourseIds = req.user.purchasedCourses; // eg. IDs: [1, 4];
   var purchasedCourses = [];
   for (let i = 0; i<COURSES.length; i++) {
     if (purchasedCourseIds.indexOf(COURSES[i].id) !== -1) {
