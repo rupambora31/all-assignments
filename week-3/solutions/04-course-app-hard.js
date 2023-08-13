@@ -50,7 +50,7 @@ const authenticateJwt = (req, res, next) => {
 
 // Connect to MongoDB
 // DONT MISUSE THIS THANKYOU!!
-mongoose.connect('mongodb+srv://kirattechnologies:iRbi4XRDdM7JMMkl@cluster0.e95bnsi.mongodb.net/courses', { useNewUrlParser: true, useUnifiedTopology: true, dbName: "courses" });
+mongoose.connect('mongodb+srv://iamrupam99:<password>@cluster0.m1jtscs.mongodb.net/courses', { useNewUrlParser: true, useUnifiedTopology: true, dbName: "courses" });
 
 app.post('/admin/signup', (req, res) => {
   const { username, password } = req.body;
@@ -96,7 +96,7 @@ app.put('/admin/courses/:courseId', authenticateJwt, async (req, res) => {
 });
 
 app.get('/admin/courses', authenticateJwt, async (req, res) => {
-  const courses = await Course.find({});
+  const courses = await Course.find({}); // {} --> returns all the courses
   res.json({ courses });
 });
 
